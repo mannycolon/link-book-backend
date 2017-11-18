@@ -5,7 +5,7 @@ import { googleAuth } from './utils/googleAuth';
 
 export const loginWithAuth0 = async (req, res) => {
   const { provider, token } = req.body;
-  let UserInfo;
+  let userInfo;
 
   try {
     if(provider === 'google') {
