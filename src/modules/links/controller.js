@@ -31,3 +31,11 @@ export const addLink = async (req, res) => {
     }
   });
 }
+
+export const getAllLinks = async (req, res) => {
+  try {
+    return res.status(201).json({ links: await Link.find({}) });
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Error retrieving all links' });
+  }
+}
