@@ -2,7 +2,7 @@
 import express from 'express';
 import dbConfig from './config/db';
 import middlewaresConfig from './config/middlewares';
-import { LinkRoutes, UserRoutes } from './modules';
+import { ArticleRoutes, UserRoutes } from './modules';
 
 const app = express();
 
@@ -15,7 +15,7 @@ dbConfig();
  */
 middlewaresConfig(app);
 
-app.use('/api', [LinkRoutes, UserRoutes]);
+app.use('/api', [ArticleRoutes, UserRoutes]);
 
 const PORT = process.env.port || 3000;
 
