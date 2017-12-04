@@ -5,7 +5,7 @@ const CollectionSchema = new Schema({
     type: String,
     required: true,
   },
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
@@ -17,3 +17,4 @@ const CollectionSchema = new Schema({
   ],
 });
 
+export default mongoose.model('Collection', CollectionSchema);
