@@ -16,6 +16,9 @@ dbConfig();
 middlewaresConfig(app);
 
 app.use('/api', [ArticleRoutes, UserRoutes]);
+app.get('/favicon.ico', function(req, res) {
+  res.status(204);
+});
 
 const PORT = process.env.PORT || 3000;
 
