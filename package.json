@@ -4,6 +4,7 @@
   "description": "backend server for linkbook react-native app",
   "main": "dist/index.js",
   "scripts": {
+    "preinstall": "babel --out-dir=dist ./src",
     "start": "NODE_ENV=development nodemon dist/index.js",
     "build:watch": "babel -w --out-dir=dist ./src",
     "clean": "rimraf dist",
