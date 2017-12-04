@@ -30,7 +30,7 @@ const app = (0, _express2.default)();
 
 app.use('/api', [_modules.ArticleRoutes, _modules.UserRoutes]);
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, err => {
   if (err) {
