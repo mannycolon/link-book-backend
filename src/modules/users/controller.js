@@ -87,8 +87,19 @@ export const getMyArticles = async (req, res) => {
   const articles = await User.getMyArticles(userId);
 
   if(!articles) {
-    return res.status(400).json({ error: true, message: `Something went wrong retrieving articles postedBy${userId}` });
+    return res.status(400).json({ error: true, message: `Something went wrong retrieving your articles list` });
   } else {
     return res.status(201).json({ error: false, sucess: true, articles });
+  }
+}
+
+export const getMyCollections = async (req, res) => {
+  const { userId } = req.params;
+  const collections = await User.getMyCollections(userId);
+
+  if(!collections) {
+    return res.status(400).json({ error: true, message: `Something went wrong retrieving collections list ` });
+  } else {
+    return res.status(201).json({ error: false, sucess: true, collections });
   }
 }

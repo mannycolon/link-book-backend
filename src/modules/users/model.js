@@ -22,18 +22,39 @@ const UserSchema = Schema(
   { timestamp: true }
 );
 
-UserSchema.statics.addArticle = async function (id, args) {
+const findOrCreateCollection = async function (collectionName, userId, articleId) {
+  try {
+    const Collection = mongoose.model('Collection');
+    const foundCollection = await Collection.find({ name: collectionName, userId });
+
+    if (foundCollection.length === 0) {
+      const collection = await new Collection({ name: collectionName, userId, articles: articleId });
+      return await collection.save();
+    }
+
+    return await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+  } catch (error) {
+    return error;
+  }
+}
+
+UserSchema.statics.addArticle = async function (userId, args) {
   const Article = mongoose.model('Article');
   // we add the user id to the article element
   // Finally this is the article of the user
-  const article = await new Article({ ...args, user: id });
+  const article = await new Article({ ...args, userId });
   // searching for duplicate entries
-  let found = await Article.find({ articleUrl: article.articleUrl, user: id });
+  const found = await Article.find({ articleUrl: article.articleUrl, userId });
+  // If collection name is defined for the article then find
+  // collection schema and update it or create a new one.
+  if (args.collectionName && args.collectionName !== 'none') {
+    await findOrCreateCollection(args.collectionName, userId, article._id);
+  }
 
   if(found.length === 0) {
     // We found the user with the id provided in the url
     // And we push the article id in the users element
-    await this.findByIdAndUpdate(id, { $addToSet: { articles: article._id } });
+    await this.findByIdAndUpdate(userId, { $addToSet: { articles: article._id } });
 
     return {
       article: await article.save(),
@@ -66,9 +87,28 @@ UserSchema.statics.findOrCreate = async function (args) {
 UserSchema.statics.getMyArticles = async function(userId) {
   try {
     const Article = mongoose.model('Article');
-    const articles = await Article.find({ user: userId });
+    const articles = await Article.find({ userId });
 
-    return articles;
+    return articles.sort((a, b) => {
+      // sort by creation timestamp
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+  } catch (error) {
+    return error;
+  }
+}
+
+UserSchema.statics.getMyCollections = async function(userId) {
+  try {
+    const Collection = mongoose.model('Collection');
+
+    return Collection
+      .find({ userId })
+      .populate('articles') // only works if we pushed refs to person.eventsAttended
+      .exec(function(err, collection) {
+        if (err) return console.log(err);
+        return collection;
+      });
   } catch (error) {
     return error;
   }
