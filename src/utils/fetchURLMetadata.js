@@ -21,17 +21,23 @@ export default function fetchURLMetadata(url, res, callback) {
 
       $('meta').each(function () {
         const data = $(this);
-        const property = data.attr('property');
+        const property = data.attr('property') || data.attr('name');
         const content = data.attr('content');
 
         switch (property) {
           case 'og:title':
+          case 'twitter:title':
+          case 'title':
             metadata.title = content;
             break;
           case 'og:description':
+          case 'twitter:description':
+          case 'description':
             metadata.description = content;
             break;
           case 'og:image':
+          case 'twitter:image':
+          case 'image':
             metadata.imageURL = content;
             break;
           default:
@@ -41,6 +47,7 @@ export default function fetchURLMetadata(url, res, callback) {
       callback(metadata);
     });
   } catch (error) {
+    console.log(error)
     return res.status(400).json({ err: true, message: 'Something went wrong parsing your articles URL data ' });
   }
 }
