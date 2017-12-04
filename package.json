@@ -37,5 +37,8 @@
     "eslint-config-equimper": "^2.2.1",
     "nodemon": "^1.12.1",
     "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": "8.0.0"
   }
 }
