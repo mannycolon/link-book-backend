@@ -4,6 +4,7 @@
   "description": "backend server for linkbook react-native app",
   "main": "dist/index.js",
   "scripts": {
+    "preinstall": "npm install",
     "start": "NODE_ENV=development nodemon dist/index.js",
     "build:watch": "babel -w --out-dir=dist ./src",
     "clean": "rimraf dist",
@@ -22,6 +23,7 @@
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.1",
     "morgan": "^1.9.0",
+    "nodemon": "^1.12.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "request": "^2.83.0"
@@ -35,7 +37,6 @@
     "babel-register": "^6.26.0",
     "eslint": "^4.11.0",
     "eslint-config-equimper": "^2.2.1",
-    "nodemon": "^1.12.1",
     "rimraf": "^2.6.2"
   },
   "engines": {
