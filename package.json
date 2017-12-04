@@ -2,7 +2,7 @@
   "name": "linkbook-backend",
   "version": "0.1.0",
   "description": "backend server for linkbook react-native app",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon dist/index.js",
     "build:watch": "babel -w --out-dir=dist ./src",
