@@ -21,12 +21,7 @@ const ArticleSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  collectionName: [{
-    type: String,
-    required: false,
-    unique: true,
-  }],
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
