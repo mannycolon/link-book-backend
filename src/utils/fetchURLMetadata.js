@@ -47,6 +47,9 @@ export default function fetchURLMetadata(url, res, callback) {
       if (!metadata.title) {
         console.log($('title').text(), 'test');
       }
+      console.log('====================================')
+      console.log(metadata.title)
+      console.log('====================================')
       callback(metadata);
     });
   } catch (error) {
