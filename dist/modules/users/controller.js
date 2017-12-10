@@ -71,7 +71,7 @@ const addArticle = exports.addArticle = async (req, res) => {
       return res.status(400).json({ error: true, message: `A valid article URL is required to perform this action.` });
     }
 
-    if (!isPublic) {
+    if (typeof isPublic !== 'boolean') {
       return res.status(400).json({ error: true, message: `It wasn't specified if this article should be private or public.` });
     }
 
