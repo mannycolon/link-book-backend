@@ -19,12 +19,6 @@ export default function fetchURLMetadata(url, res, callback) {
         imageURL: '',
       };
 
-
-      console.log($('title').text(), 'test');
-      console.log('====================================')
-      console.log(metadata.title)
-      console.log('====================================')
-
       $('meta').each(function () {
         const data = $(this);
         const property = data.attr('property') || data.attr('name');
@@ -50,6 +44,10 @@ export default function fetchURLMetadata(url, res, callback) {
             break;
         }
       });
+      if (!metadata.title) {
+        metadata.title = $('title').text();
+      }
+
       callback(metadata);
     });
   } catch (error) {
