@@ -44,15 +44,16 @@ export default function fetchURLMetadata(url, res, callback) {
             break;
         }
       });
-      if (!metadata.title) {
-        console.log($('title').text(), 'test');
-      }
-      console.log('====================================')
-      console.log(metadata.title)
-      console.log('====================================')
-      callback(metadata);
+
     });
   } catch (error) {
+    if (!metadata.title) {
+      console.log($('title').text(), 'test');
+    }
+    console.log('====================================')
+    console.log(metadata.title)
+    console.log('====================================')
+    callback(metadata);
     console.log(error)
     return res.status(400).json({ err: true, message: 'Something went wrong parsing your articles URL data ' });
   }
