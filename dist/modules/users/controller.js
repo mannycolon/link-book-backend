@@ -67,14 +67,6 @@ const addArticle = exports.addArticle = async (req, res) => {
       return res.status(400).json({ error: true, message: `A title couldn't be found for your article.` });
     }
 
-    if (!description) {
-      return res.status(400).json({ error: true, message: `A description couldn't be found for your article.` });
-    }
-
-    if (!imageURL) {
-      return res.status(400).json({ error: true, message: `A valid image URL is required for your article.` });
-    }
-
     if (!articleUrl) {
       return res.status(400).json({ error: true, message: `A valid article URL is required to perform this action.` });
     }
@@ -89,6 +81,7 @@ const addArticle = exports.addArticle = async (req, res) => {
 
       return res.status(201).json({ error: false, article });
     } catch (error) {
+      console.log(error);
       if (error.errmsg && error.errmsg.includes('duplicate key error')) {
         return res.status(error.status || 400).json({ error: true, message: 'You previously added this article to your list.' });
       } else {

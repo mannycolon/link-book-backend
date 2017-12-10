@@ -16,16 +16,14 @@ const ArticleSchema = new _mongoose.Schema({
     required: true
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   articleUrl: {
     type: String,
     required: true
   },
   imageURL: {
-    type: String,
-    required: true
+    type: String
   },
   isPublic: {
     type: Boolean,

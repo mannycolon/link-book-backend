@@ -58,6 +58,10 @@ function fetchURLMetadata(url, res, callback) {
             break;
         }
       });
+      if (!metadata.title) {
+        metadata.title = $('title').text();
+      }
+
       callback(metadata);
     });
   } catch (error) {

@@ -7,7 +7,6 @@ const ArticleSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
   },
   articleUrl: {
     type: String,
@@ -15,7 +14,6 @@ const ArticleSchema = new Schema({
   },
   imageURL: {
     type: String,
-    required: true,
   },
   isPublic: {
     type: Boolean,
