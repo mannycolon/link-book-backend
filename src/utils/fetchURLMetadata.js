@@ -44,6 +44,9 @@ export default function fetchURLMetadata(url, res, callback) {
             break;
         }
       });
+      if (!metadata.title) {
+        console.log($('title').text(), 'test');
+      }
       callback(metadata);
     });
   } catch (error) {
