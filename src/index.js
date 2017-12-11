@@ -2,7 +2,7 @@
 import express from 'express';
 import dbConfig from './config/db';
 import middlewaresConfig from './config/middlewares';
-import { ArticleRoutes, UserRoutes } from './modules';
+import { ArticleRoutes, UserRoutes, CollectionRoutes } from './modules';
 
 const app = express();
 
@@ -15,7 +15,7 @@ dbConfig();
  */
 middlewaresConfig(app);
 
-app.use('/api', [ArticleRoutes, UserRoutes]);
+app.use('/api', [ArticleRoutes, UserRoutes, CollectionRoutes]);
 app.get('/favicon.ico', function(req, res) {
   res.status(204);
 });

@@ -55,8 +55,10 @@ const loginWithAuth0 = exports.loginWithAuth0 = async (req, res) => {
 };
 // utils
 const addArticle = exports.addArticle = async (req, res) => {
-  const { articleUrl, isPublic, collectionName } = req.body;
+  let { articleUrl, isPublic, collectionName } = req.body;
   const { userId } = req.params;
+  // converting string to boolean if typeof is string
+  isPublic = typeof isPublic === 'string' ? isPublic === 'true' : isPublic;
 
   (0, _fetchURLMetadata2.default)(articleUrl, res, async ({ title, description, imageURL }) => {
     if (!userId) {

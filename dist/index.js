@@ -28,7 +28,7 @@ const app = (0, _express2.default)();
  */
 (0, _middlewares2.default)(app);
 
-app.use('/api', [_modules.ArticleRoutes, _modules.UserRoutes]);
+app.use('/api', [_modules.ArticleRoutes, _modules.UserRoutes, _modules.CollectionRoutes]);
 app.get('/favicon.ico', function (req, res) {
   res.status(204);
 });

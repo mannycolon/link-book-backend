@@ -20,7 +20,7 @@ const getPublicArticles = exports.getPublicArticles = async (req, res) => {
       // sort by creation timestamp
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
-    return res.status(201).json({ articles });
+    return res.status(201).json({ error: false, sucess: true, articles });
   } catch (error) {
     return res.status(401).json({ error: true, message: 'Error retrieving all articles' });
   }
