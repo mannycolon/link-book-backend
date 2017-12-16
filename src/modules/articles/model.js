@@ -19,9 +19,9 @@ const ArticleSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  isInCollection: {
-    type: Boolean,
-  },
+  collectionNames: [{
+    type: String
+  }],
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
