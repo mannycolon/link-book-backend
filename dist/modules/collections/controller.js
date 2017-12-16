@@ -25,6 +25,7 @@ const deleteCollection = exports.deleteCollection = async (req, res) => {
       return res.status(401).json({ error: true, message: `Failed to delete the collection name (${collectionName}) because it could'nt be found.` });
     } else {
       await _model2.default.find({ userId, name: collectionName }).remove().exec();
+      await _model2.default.removeCollectionNameFromAllArticles(collectionName, userId);
       return res.status(201).json({ error: false, sucess: true, message: `Collection name ${collectionName} was successfully deleted.` });
     }
   } catch (error) {
@@ -52,6 +53,7 @@ const removeArticleFromCollection = exports.removeArticleFromCollection = async 
       return res.status(401).json({ error: true, message: `Your article couldn't be removed from ${collectionName} collection name because it could'nt be found.` });
     } else {
       await _model2.default.update({ userId, name: collectionName }, { $pull: { articles: articleId } });
+      await _model2.default.removeCollectionNameFromArticle(collectionName, articleId);
       return res.status(201).json({ error: false, sucess: true, message: `Your article was successfully removed from ${collectionName} collection name.` });
     }
   } catch (error) {
@@ -77,6 +79,7 @@ const addArticleToCollection = exports.addArticleToCollection = async (req, res)
 
     if (foundCollection.length === 0) {
       await _model2.default.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+      await _model2.default.addCollectionNameToArticle(collectionName, articleId);
       return res.status(201).json({ error: false, sucess: true, message: `Your article was successfully added to ${collectionName} collection name.` });
     } else {
       return res.status(401).json({ error: true, message: `Your article couldn't be added to ${collectionName} collection name because it was previously added.` });

@@ -78,7 +78,11 @@ const addArticle = exports.addArticle = async (req, res) => {
     }
 
     try {
-      const { article, duplicate } = await _model2.default.addArticle(userId, { title, description, imageURL, articleUrl, isPublic, collectionName });
+      let args = { title, description, imageURL, articleUrl, isPublic, collectionName };
+      if (collectionName !== 'none') {
+        args.collectionNames = collectionName;
+      }
+      const { article, duplicate } = await _model2.default.addArticle(userId, args);
       if (duplicate) return res.status(400).json({ error: true, message: 'You previously added this article to your list.' });
 
       return res.status(201).json({ error: false, article });

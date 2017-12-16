@@ -29,9 +29,9 @@ const ArticleSchema = new _mongoose.Schema({
     type: Boolean,
     required: true
   },
-  isInCollection: {
-    type: Boolean
-  },
+  collectionNames: [{
+    type: String
+  }],
   userId: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: 'User'
