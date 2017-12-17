@@ -22,17 +22,20 @@ const UserSchema = Schema(
   { timestamp: true }
 );
 
-UserSchema.statics.findOrCreateCollection = async function (collectionName, userId, articleId) {
+UserSchema.statics.findOrCreateCollection = async function (collectionNames, userId, articleId) {
   try {
     const Collection = mongoose.model('Collection');
-    const foundCollection = await Collection.find({ name: collectionName, userId });
 
-    if (foundCollection.length === 0) {
-      const collection = await new Collection({ name: collectionName, userId, articles: articleId });
-      return await collection.save();
-    }
+    return collectionNames.forEach(async (collectionName) => {
+      let foundCollection = await Collection.find({ name: collectionName, userId });
 
-    return await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+      if (foundCollection.length === 0) {
+        const collection = await new Collection({ name: collectionName, userId, articles: articleId });
+        return await collection.save();
+      } else {
+        return await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+      }
+    });
   } catch (error) {
     return error;
   }
@@ -47,8 +50,8 @@ UserSchema.statics.addArticle = async function (userId, args) {
   const found = await Article.find({ articleUrl: article.articleUrl, userId });
   // If collection name is defined for the article then find
   // collection schema and update it or create a new one.
-  if (args.collectionName && args.collectionName !== 'none') {
-    await findOrCreateCollection(args.collectionName, userId, article._id);
+  if (args.collectionNames && !args.collectionNames.includes('none')) {
+    await this.findOrCreateCollection(args.collectionNames, userId, article._id);
   }
 
   if(found.length === 0) {
