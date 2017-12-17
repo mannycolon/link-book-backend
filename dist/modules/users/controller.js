@@ -55,7 +55,7 @@ const loginWithAuth0 = exports.loginWithAuth0 = async (req, res) => {
 };
 // utils
 const addArticle = exports.addArticle = async (req, res) => {
-  let { articleUrl, isPublic, collectionName } = req.body;
+  let { articleUrl, isPublic, collectionNames } = req.body;
   const { userId } = req.params;
   // converting string to boolean if typeof is string
   isPublic = typeof isPublic === 'string' ? isPublic === 'true' : isPublic;
@@ -78,10 +78,8 @@ const addArticle = exports.addArticle = async (req, res) => {
     }
 
     try {
-      let args = { title, description, imageURL, articleUrl, isPublic, collectionName };
-      if (collectionName !== 'none') {
-        args.collectionNames = collectionName;
-      }
+      collectionNames = collectionNames.filter(collectionName => collectionName.toLowerCase() !== 'none');
+      const args = { title, description, imageURL, articleUrl, isPublic, collectionNames };
       const { article, duplicate } = await _model2.default.addArticle(userId, args);
       if (duplicate) return res.status(400).json({ error: true, message: 'You previously added this article to your list.' });
 
