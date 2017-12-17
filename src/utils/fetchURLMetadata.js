@@ -47,7 +47,7 @@ export default function fetchURLMetadata(url, res, callback) {
       if (!metadata.title) {
         metadata.title = $('title').text();
       }
-
+      if (error) return res.status(400).json({ err: true, message: 'Something went wrong parsing your articles URL data ' });
       callback(metadata);
     });
   } catch (error) {
