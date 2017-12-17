@@ -27,7 +27,7 @@ const UserSchema = (0, _mongoose.Schema)({
   }]
 }, { timestamp: true });
 
-const findOrCreateCollection = async function (collectionName, userId, articleId) {
+UserSchema.statics.findOrCreateCollection = async function (collectionName, userId, articleId) {
   try {
     const Collection = _mongoose2.default.model('Collection');
     const foundCollection = await Collection.find({ name: collectionName, userId });

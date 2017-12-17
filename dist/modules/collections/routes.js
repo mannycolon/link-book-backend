@@ -15,7 +15,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const routes = new _express.Router();
 
 routes.post('/collections/:userId/delete', collectionController.deleteCollection);
-routes.post('/collections/:userId/update/remove', collectionController.removeArticleFromCollection);
-routes.post('/collections/:userId/update/add', collectionController.addArticleToCollection);
+routes.post('/collections/:userId/update', collectionController.updateArticleCollectionNames);
 
 exports.default = routes;

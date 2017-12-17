@@ -17,19 +17,10 @@ const CollectionSchema = new Schema({
   ],
 });
 
-CollectionSchema.statics.addCollectionNameToArticle = async function (collectionName, articleId) {
+CollectionSchema.statics.updateArticleCollectionNames = async function (collectionNames, articleId) {
   const Article = mongoose.model('Article');
   try {
-    return await Article.findByIdAndUpdate(articleId, { $addToSet: { collectionNames: collectionName } });
-  } catch (error) {
-    return error;
-  }
-}
-
-CollectionSchema.statics.removeCollectionNameFromArticle = async function (collectionName, articleId) {
-  const Article = mongoose.model('Article');
-  try {
-    return await Article.findByIdAndUpdate(articleId, { $pull: { collectionNames: collectionName } });
+    return await Article.findByIdAndUpdate(articleId, { $set: { collectionNames } });
   } catch (error) {
     return error;
   }
