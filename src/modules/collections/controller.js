@@ -71,10 +71,10 @@ export const updateCollectionNameText = async (req, res) => {
 
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified' });
-    } else if (!oldCollectionName) {
-      return res.status(401).json({ error: true, message: 'oldCollectionName must be specified' });
-    } else if (!newCollectionName) {
-      return res.status(401).json({ error: true, message: 'newCollectionName must be specified' });
+    } else if (!oldCollectionName && typeof oldCollectionName === 'string') {
+      return res.status(401).json({ error: true, message: 'oldCollectionName must be specified and it must be a string variable type.' });
+    } else if (!newCollectionName && typeof newCollectionName === 'string') {
+      return res.status(401).json({ error: true, message: 'newCollectionName must be specified and it must be a string variable type.' });
     }
 
     await collection.update({ userId, name: oldCollectionName }, { $set: { name: newCollectionName } });
