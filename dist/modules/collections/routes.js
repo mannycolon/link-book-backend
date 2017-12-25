@@ -16,5 +16,6 @@ const routes = new _express.Router();
 
 routes.post('/collections/:userId/delete', collectionController.deleteCollection);
 routes.post('/collections/:userId/update', collectionController.updateArticleCollectionNames);
+routes.post('/collections/:userId/update/name', collectionController.updateCollectionNameText);
 
 exports.default = routes;

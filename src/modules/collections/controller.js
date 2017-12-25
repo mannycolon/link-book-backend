@@ -1,5 +1,6 @@
 import collection from './model';
 import User from '../users/model';
+import Article from '../articles/model';
 
 export const deleteCollection = async (req, res) => {
   try {
@@ -60,5 +61,28 @@ export const updateArticleCollectionNames = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
+  }
+}
+
+export const updateCollectionNameText = async (req, res) => {
+  try {
+    const { oldCollectionName, newCollectionName } = req.body;
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified' });
+    } else if (!oldCollectionName) {
+      return res.status(401).json({ error: true, message: 'oldCollectionName must be specified' });
+    } else if (!newCollectionName) {
+      return res.status(401).json({ error: true, message: 'newCollectionName must be specified' });
+    }
+
+    await collection.update({ userId, name: oldCollectionName }, { $set: { name: newCollectionName } });
+    await Article.update({ userId, collectionNames: oldCollectionName }, { $addToSet: { collectionNames: newCollectionName } }, { multi: true });
+    await collection.removeCollectionNameFromAllArticles(oldCollectionName, userId);
+
+    return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.`});
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something when wrong while updating the name of your collection.', error });
   }
 }
