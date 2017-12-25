@@ -15,5 +15,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const routes = new _express.Router();
 
 routes.get('/articles/:userId', ArticleController.getPublicArticles);
+routes.post('/articles/:userId/update/privacy', ArticleController.changeArticlesPrivacy);
 
 exports.default = routes;

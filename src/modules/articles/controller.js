@@ -14,3 +14,24 @@ export const getPublicArticles = async (req, res) => {
     return res.status(401).json({ error: true, message: 'Error retrieving all articles' });
   }
 }
+
+export const changeArticlesPrivacy = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { articleId, isPublic } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    }
+
+    await Article.update({ userId, _id: articleId }, { $set: { isPublic } });
+
+    return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.`});
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
+  }
+}

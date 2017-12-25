@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPublicArticles = undefined;
+exports.changeArticlesPrivacy = exports.getPublicArticles = undefined;
 
 var _model = require('./model');
 
@@ -23,5 +23,26 @@ const getPublicArticles = exports.getPublicArticles = async (req, res) => {
     return res.status(201).json({ error: false, sucess: true, articles });
   } catch (error) {
     return res.status(401).json({ error: true, message: 'Error retrieving all articles' });
+  }
+};
+
+const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { articleId, isPublic } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    }
+
+    await _model2.default.update({ userId, _id: articleId }, { $set: { isPublic } });
+
+    return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.` });
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
   }
 };
