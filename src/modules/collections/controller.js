@@ -71,9 +71,9 @@ export const updateCollectionNameText = async (req, res) => {
 
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified' });
-    } else if (!oldCollectionName && typeof oldCollectionName === 'string') {
+    } else if (!oldCollectionName || typeof oldCollectionName !== 'string') {
       return res.status(401).json({ error: true, message: 'oldCollectionName must be specified and it must be a string variable type.' });
-    } else if (!newCollectionName && typeof newCollectionName === 'string') {
+    } else if (!newCollectionName || typeof newCollectionName !== 'string') {
       return res.status(401).json({ error: true, message: 'newCollectionName must be specified and it must be a string variable type.' });
     }
 
@@ -84,5 +84,62 @@ export const updateCollectionNameText = async (req, res) => {
     return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.`});
   } catch (error) {
     return res.status(401).json({ error: true, message: 'Something when wrong while updating the name of your collection.', error });
+  }
+}
+
+export const addArticlesToCollection = async (req, res) => {
+  try {
+    const { articlesIds, collectionName } = req.body;
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified.' });
+    } else if (!articlesIds) {
+      return res.status(401).json({ error: true, message: 'articlesIds must be specified.' });
+    } else if (!Array.isArray(articlesIds)) {
+      return res.status(401).json({ error: true, message: 'articlesIds must be an array.' });
+    }
+
+    articlesIds.forEach(async articleId => {
+      try {
+        await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+      } catch (error) {
+        return res.status(401).json({ error: true, message: `Failed to add your article (${articleId}) to the collection.` });
+      }
+    });
+
+    return res.status(201).json({ error: false, sucess: true, message: `The articles were succesfully added to the collection.`});
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something when wrong while adding the articles to your collection.', errorType: error });
+  }
+}
+
+export const removeArticlesFromCollection = async (req, res) => {
+  try {
+    const { articlesIds, collectionName } = req.body;
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified.' });
+    } else if (!articlesIds) {
+      return res.status(401).json({ error: true, message: 'articlesIds must be specified.' });
+    } else if (!Array.isArray(articlesIds)) {
+      return res.status(401).json({ error: true, message: 'articlesIds must be an array.' });
+    }
+
+    articlesIds.forEach(async articleId => {
+      try {
+        await collection.update(
+          { name: collectionName, userId },
+          { $pull: { articles: articleId } },
+        );
+      } catch (error) {
+        return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });
+      }
+    });
+
+    return res.status(201).json({ error: false, sucess: true, message: `The articles were succesfully removed from the collection.`});
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something when wrong while removing the articles from your collection.', errorType: error });
   }
 }
