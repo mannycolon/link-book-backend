@@ -89,18 +89,18 @@ export const updateCollectionNameText = async (req, res) => {
 
 export const addArticlesToCollection = async (req, res) => {
   try {
-    const { articlesIds, collectionName } = req.body;
+    const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
 
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
-    } else if (!articlesIds) {
-      return res.status(401).json({ error: true, message: 'articlesIds must be specified.' });
-    } else if (!Array.isArray(articlesIds)) {
-      return res.status(401).json({ error: true, message: 'articlesIds must be an array.' });
+    } else if (!articleIds) {
+      return res.status(401).json({ error: true, message: 'articleIds must be specified.' });
+    } else if (!Array.isArray(articleIds)) {
+      return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
 
-    articlesIds.forEach(async articleId => {
+    articleIds.forEach(async articleId => {
       try {
         await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
       } catch (error) {
@@ -116,18 +116,18 @@ export const addArticlesToCollection = async (req, res) => {
 
 export const removeArticlesFromCollection = async (req, res) => {
   try {
-    const { articlesIds, collectionName } = req.body;
+    const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
 
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
-    } else if (!articlesIds) {
-      return res.status(401).json({ error: true, message: 'articlesIds must be specified.' });
-    } else if (!Array.isArray(articlesIds)) {
-      return res.status(401).json({ error: true, message: 'articlesIds must be an array.' });
+    } else if (!articleIds) {
+      return res.status(401).json({ error: true, message: 'articleIds must be specified.' });
+    } else if (!Array.isArray(articleIds)) {
+      return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
 
-    articlesIds.forEach(async articleId => {
+    articleIds.forEach(async articleId => {
       try {
         await collection.update(
           { name: collectionName, userId },
