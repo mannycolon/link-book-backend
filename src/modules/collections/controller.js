@@ -104,6 +104,7 @@ console.log(articleIds, collectionName, userId)
       try {
         await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
       } catch (error) {
+        console.log(error)
         return res.status(401).json({ error: true, message: `Failed to add your article (${articleId}) to the collection.` });
       }
     });
