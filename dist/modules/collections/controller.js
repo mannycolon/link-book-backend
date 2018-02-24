@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateCollectionNameText = exports.updateArticleCollectionNames = exports.deleteCollection = undefined;
+exports.removeArticlesFromCollection = exports.addArticlesToCollection = exports.updateCollectionNameText = exports.updateArticleCollectionNames = exports.deleteCollection = undefined;
 
 var _model = require('./model');
 
@@ -84,9 +84,9 @@ const updateCollectionNameText = exports.updateCollectionNameText = async (req, 
 
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified' });
-    } else if (!oldCollectionName && typeof oldCollectionName === 'string') {
+    } else if (!oldCollectionName || typeof oldCollectionName !== 'string') {
       return res.status(401).json({ error: true, message: 'oldCollectionName must be specified and it must be a string variable type.' });
-    } else if (!newCollectionName && typeof newCollectionName === 'string') {
+    } else if (!newCollectionName || typeof newCollectionName !== 'string') {
       return res.status(401).json({ error: true, message: 'newCollectionName must be specified and it must be a string variable type.' });
     }
 
@@ -97,5 +97,59 @@ const updateCollectionNameText = exports.updateCollectionNameText = async (req, 
     return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.` });
   } catch (error) {
     return res.status(401).json({ error: true, message: 'Something when wrong while updating the name of your collection.', error });
+  }
+};
+
+const addArticlesToCollection = exports.addArticlesToCollection = async (req, res) => {
+  try {
+    const { articleIds, collectionName } = req.body;
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified.' });
+    } else if (!articleIds) {
+      return res.status(401).json({ error: true, message: 'articleIds must be specified.' });
+    } else if (!Array.isArray(articleIds)) {
+      return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
+    }
+
+    articleIds.forEach(async articleId => {
+      try {
+        await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+      } catch (error) {
+        return res.status(401).json({ error: true, message: `Failed to add your article (${articleId}) to the collection.` });
+      }
+    });
+
+    return res.status(201).json({ error: false, sucess: true, message: `The articles were succesfully added to the collection.` });
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something when wrong while adding the articles to your collection.', errorType: error });
+  }
+};
+
+const removeArticlesFromCollection = exports.removeArticlesFromCollection = async (req, res) => {
+  try {
+    const { articleIds, collectionName } = req.body;
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified.' });
+    } else if (!articleIds) {
+      return res.status(401).json({ error: true, message: 'articleIds must be specified.' });
+    } else if (!Array.isArray(articleIds)) {
+      return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
+    }
+
+    articleIds.forEach(async articleId => {
+      try {
+        await _model2.default.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
+      } catch (error) {
+        return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });
+      }
+    });
+
+    return res.status(201).json({ error: false, sucess: true, message: `The articles were succesfully removed from the collection.` });
+  } catch (error) {
+    return res.status(401).json({ error: true, message: 'Something when wrong while removing the articles from your collection.', errorType: error });
   }
 };
