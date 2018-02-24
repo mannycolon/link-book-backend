@@ -92,7 +92,7 @@ export const addArticlesToCollection = async (req, res) => {
   try {
     const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
-console.log(articleIds, collectionName, userId)
+
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
     } else if (!articleIds) {
@@ -130,6 +130,8 @@ export const removeArticlesFromCollection = async (req, res) => {
     } else if (!Array.isArray(articleIds)) {
       return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
+
+    const Collection = mongoose.model('Collection');
 
     articleIds.forEach(async articleId => {
       try {

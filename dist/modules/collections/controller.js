@@ -108,7 +108,7 @@ const addArticlesToCollection = exports.addArticlesToCollection = async (req, re
   try {
     const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
-    console.log(articleIds, collectionName, userId);
+
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
     } else if (!articleIds) {
@@ -146,6 +146,8 @@ const removeArticlesFromCollection = exports.removeArticlesFromCollection = asyn
     } else if (!Array.isArray(articleIds)) {
       return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
+
+    const Collection = _mongoose2.default.model('Collection');
 
     articleIds.forEach(async articleId => {
       try {
