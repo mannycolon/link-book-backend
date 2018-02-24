@@ -140,6 +140,7 @@ export const removeArticlesFromCollection = async (req, res) => {
 
     return res.status(201).json({ error: false, sucess: true, message: `The articles were succesfully removed from the collection.`});
   } catch (error) {
+    console.log(error)
     return res.status(401).json({ error: true, message: 'Something when wrong while removing the articles from your collection.', errorType: error });
   }
 }
