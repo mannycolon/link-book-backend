@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import collection from './model';
 import User from '../users/model';
 import Article from '../articles/model';
@@ -99,6 +100,8 @@ console.log(articleIds, collectionName, userId)
     } else if (!Array.isArray(articleIds)) {
       return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
+
+    const Collection = mongoose.model('Collection');
 
     articleIds.forEach(async articleId => {
       try {

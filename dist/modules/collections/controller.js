@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.removeArticlesFromCollection = exports.addArticlesToCollection = exports.updateCollectionNameText = exports.updateArticleCollectionNames = exports.deleteCollection = undefined;
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 var _model = require('./model');
 
 var _model2 = _interopRequireDefault(_model);
@@ -112,6 +116,8 @@ const addArticlesToCollection = exports.addArticlesToCollection = async (req, re
     } else if (!Array.isArray(articleIds)) {
       return res.status(401).json({ error: true, message: 'articleIds must be an array.' });
     }
+
+    const Collection = _mongoose2.default.model('Collection');
 
     articleIds.forEach(async articleId => {
       try {
