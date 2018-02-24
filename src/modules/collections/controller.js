@@ -91,7 +91,7 @@ export const addArticlesToCollection = async (req, res) => {
   try {
     const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
-
+console.log(articleIds, collectionName, userId)
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
     } else if (!articleIds) {
