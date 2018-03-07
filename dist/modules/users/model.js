@@ -38,6 +38,7 @@ UserSchema.statics.findOrCreateCollection = async function (collectionNames, use
         const collection = await new Collection({ name: collectionName, userId, articles: articleId });
         return await collection.save();
       } else {
+        console.log('hello----------');
         return await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
       }
     });
