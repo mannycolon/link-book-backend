@@ -59,7 +59,7 @@ export const updateArticleCollectionNames = async (req, res) => {
     //   }
     // });
 
-    // await collection.updateArticleCollectionNames(collectionNames, articleId);
+    await collection.updateArticleCollectionNames(collectionNames, articleId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's collection was successfully updated.` });
   } catch (error) {

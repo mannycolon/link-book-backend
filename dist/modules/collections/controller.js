@@ -79,7 +79,7 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
     //   }
     // });
 
-    // await collection.updateArticleCollectionNames(collectionNames, articleId);
+    await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's collection was successfully updated.` });
   } catch (error) {
