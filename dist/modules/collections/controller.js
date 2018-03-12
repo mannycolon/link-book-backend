@@ -62,9 +62,14 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
     const User = _mongoose2.default.model('User');
     const Collection = _mongoose2.default.model('Collection');
 
+    console.log(collectionNames);
+    if (collectionNames.length === 0) {
+      await Collection.update({ userId, articles: articleId }, { $pull: { articles: articleId } }, { multi: true });
+    }
+
     collectionNames.forEach(async collectionName => {
       try {
-        await Collection.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
+        await Collection.update({ userId, articles: articleId }, { $pull: { articles: articleId } }, { multi: true });
       } catch (error) {
         console.error(error);
         return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });

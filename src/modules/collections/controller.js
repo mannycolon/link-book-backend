@@ -45,11 +45,21 @@ export const updateArticleCollectionNames = async (req, res) => {
     const User = mongoose.model('User');
     const Collection = mongoose.model('Collection');
 
+    console.log(collectionNames)
+    if (collectionNames.length === 0) {
+      await Collection.update(
+        { userId, articles: articleId },
+        { $pull: { articles: articleId } },
+        { multi: true }
+      );
+    }
+
     collectionNames.forEach(async collectionName => {
       try {
         await Collection.update(
-          { name: collectionName, userId },
+          { userId, articles: articleId },
           { $pull: { articles: articleId } },
+          { multi: true }
         );
       } catch (error) {
         console.error(error)
