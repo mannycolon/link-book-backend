@@ -30,11 +30,9 @@ const UserSchema = (0, _mongoose.Schema)({
 UserSchema.statics.findOrCreateCollection = async function (collectionNames, userId, articleId) {
   try {
     const Collection = _mongoose2.default.model('Collection');
-    console.log(collectionNames);
 
     return collectionNames.forEach(async collectionName => {
       let foundCollection = await Collection.find({ name: collectionName, userId });
-      console.log(foundCollection);
       if (foundCollection.length === 0) {
         const collection = await new Collection({ name: collectionName, userId, articles: articleId });
         return await collection.save();
