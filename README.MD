@@ -10,7 +10,7 @@ Backend for linkbook react native app
 
 ### Development Notes
 - Keep `mongod` running.
-- Run `npm run dev`.
+- Run `npm run start`.
 - Make sure to keep `npm run build:watch` running in a separate terminal window while in development to watch for changes.
 
 ### Running ES6 code in node

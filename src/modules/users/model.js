@@ -25,6 +25,7 @@ const UserSchema = Schema(
 UserSchema.statics.findOrCreateCollection = async function (collectionNames, userId, articleId) {
   try {
     const Collection = mongoose.model('Collection');
+    console.log(collectionNames)
 
     return collectionNames.forEach(async (collectionName) => {
       let foundCollection = await Collection.find({ name: collectionName, userId });

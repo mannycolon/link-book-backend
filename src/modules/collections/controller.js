@@ -42,7 +42,6 @@ export const updateArticleCollectionNames = async (req, res) => {
       return res.status(401).json({ error: true, message: `Please provide the articleId that you want to add to the articles collection.` });
     }
 
-    console.log(articleId, collectionNames, userId)
     const User = mongoose.model('User');
 
     collectionNames.forEach(async collectionName => {
@@ -52,13 +51,13 @@ export const updateArticleCollectionNames = async (req, res) => {
           { $pull: { articles: articleId } },
           { multi: true }
         );
-        await User.findOrCreateCollection(collectionName, userId, articleId);
       } catch (error) {
         console.error(error)
         return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
       }
     });
 
+    await User.findOrCreateCollection(collectionNames, userId, articleId);
     await collection.updateArticleCollectionNames(collectionNames, articleId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's collection was successfully updated.` });
