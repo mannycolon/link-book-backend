@@ -60,7 +60,7 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
     }
 
     console.log(articleId, collectionNames, userId);
-    const User = _mongoose2.default.model('Article');
+    const User = _mongoose2.default.model('User');
 
     collectionNames.forEach(async collectionName => {
       try {

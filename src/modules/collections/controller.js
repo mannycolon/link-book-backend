@@ -43,7 +43,7 @@ export const updateArticleCollectionNames = async (req, res) => {
     }
 
     console.log(articleId, collectionNames, userId)
-    const User = mongoose.model('Article');
+    const User = mongoose.model('User');
 
     collectionNames.forEach(async collectionName => {
       try {
