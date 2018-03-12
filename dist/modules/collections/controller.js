@@ -154,7 +154,7 @@ const removeArticlesFromCollection = exports.removeArticlesFromCollection = asyn
     articleIds.forEach(async articleId => {
       try {
         await _model2.default.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
-        await _model4.default.findByIdAndUpdate(articleId, { $pull: { collectionNames } });
+        await _model4.default.findByIdAndUpdate(articleId, { $pull: { collectionNames: collectionName } });
       } catch (error) {
         console.log(error);
         return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });

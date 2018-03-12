@@ -144,7 +144,7 @@ export const removeArticlesFromCollection = async (req, res) => {
           { name: collectionName, userId },
           { $pull: { articles: articleId } },
         );
-        await Article.findByIdAndUpdate(articleId, { $pull: { collectionNames } });
+        await Article.findByIdAndUpdate(articleId, { $pull: { collectionNames: collectionName } });
       } catch (error) {
         console.log(error)
         return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });
