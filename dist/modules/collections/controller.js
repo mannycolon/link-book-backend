@@ -64,7 +64,7 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
 
     collectionNames.forEach(async collectionName => {
       try {
-        await Collection.update({ userId, articles: articleId, collectionName }, { $pull: { articles: articleId } }, { multi: true });
+        await Collection.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
       } catch (error) {
         console.error(error);
         return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });

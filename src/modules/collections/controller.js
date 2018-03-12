@@ -48,9 +48,8 @@ export const updateArticleCollectionNames = async (req, res) => {
     collectionNames.forEach(async collectionName => {
       try {
         await Collection.update(
-          { userId, articles: articleId, collectionName },
+          { name: collectionName, userId },
           { $pull: { articles: articleId } },
-          { multi: true }
         );
       } catch (error) {
         console.error(error)
