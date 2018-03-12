@@ -13,13 +13,9 @@ var _model = require('./model');
 
 var _model2 = _interopRequireDefault(_model);
 
-var _model3 = require('../users/model');
+var _model3 = require('../articles/model');
 
 var _model4 = _interopRequireDefault(_model3);
-
-var _model5 = require('../articles/model');
-
-var _model6 = _interopRequireDefault(_model5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64,20 +60,17 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
     }
 
     console.log(articleId, collectionNames, userId);
+    const User = _mongoose2.default.model('Article');
 
-    // collectionNames.forEach(async collectionName => {
-    //   try {
-    //     await collection.update(
-    //       { userId, articles: articleId },
-    //       { $pull: { articles: articleId } },
-    //       { multi: true }
-    //     );
-    //     await User.findOrCreateCollection(collectionName, userId, articleId);
-    //   } catch (error) {
-    //     console.error(error)
-    //     return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
-    //   }
-    // });
+    collectionNames.forEach(async collectionName => {
+      try {
+        await _model2.default.update({ userId, articles: articleId }, { $pull: { articles: articleId } }, { multi: true });
+        await User.findOrCreateCollection(collectionName, userId, articleId);
+      } catch (error) {
+        console.error(error);
+        return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
+      }
+    });
 
     await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
 
@@ -102,7 +95,7 @@ const updateCollectionNameText = exports.updateCollectionNameText = async (req, 
     }
 
     await _model2.default.update({ userId, name: oldCollectionName }, { $set: { name: newCollectionName } });
-    await _model6.default.update({ userId, collectionNames: oldCollectionName }, { $addToSet: { collectionNames: newCollectionName } }, { multi: true });
+    await _model4.default.update({ userId, collectionNames: oldCollectionName }, { $addToSet: { collectionNames: newCollectionName } }, { multi: true });
     await _model2.default.removeCollectionNameFromAllArticles(oldCollectionName, userId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.` });

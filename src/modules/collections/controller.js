@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import collection from './model';
-import User from '../users/model';
 import Article from '../articles/model';
 
 export const deleteCollection = async (req, res) => {
@@ -44,20 +43,21 @@ export const updateArticleCollectionNames = async (req, res) => {
     }
 
     console.log(articleId, collectionNames, userId)
+    const User = mongoose.model('Article');
 
-    // collectionNames.forEach(async collectionName => {
-    //   try {
-    //     await collection.update(
-    //       { userId, articles: articleId },
-    //       { $pull: { articles: articleId } },
-    //       { multi: true }
-    //     );
-    //     await User.findOrCreateCollection(collectionName, userId, articleId);
-    //   } catch (error) {
-    //     console.error(error)
-    //     return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
-    //   }
-    // });
+    collectionNames.forEach(async collectionName => {
+      try {
+        await collection.update(
+          { userId, articles: articleId },
+          { $pull: { articles: articleId } },
+          { multi: true }
+        );
+        await User.findOrCreateCollection(collectionName, userId, articleId);
+      } catch (error) {
+        console.error(error)
+        return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
+      }
+    });
 
     await collection.updateArticleCollectionNames(collectionNames, articleId);
 
