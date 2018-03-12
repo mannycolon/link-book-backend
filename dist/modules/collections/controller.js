@@ -121,6 +121,9 @@ const addArticlesToCollection = exports.addArticlesToCollection = async (req, re
     articleIds.forEach(async articleId => {
       try {
         await Collection.update({ name: collectionName, userId }, { $addToSet: { articles: articleId } });
+        const collectionNames = [];
+        collectionNames.push(collectionName);
+        await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
       } catch (error) {
         console.log(error);
         return res.status(401).json({ error: true, message: `Failed to add your article (${articleId}) to the collection.` });
@@ -151,9 +154,7 @@ const removeArticlesFromCollection = exports.removeArticlesFromCollection = asyn
     articleIds.forEach(async articleId => {
       try {
         await _model2.default.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
-        const collectionNames = [];
-        collectionNames.push(collectionName);
-        await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
+        await _model4.default.findByIdAndUpdate(articleId, { $pull: { collectionNames } });
       } catch (error) {
         console.log(error);
         return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });
