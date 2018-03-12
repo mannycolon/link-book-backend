@@ -138,7 +138,6 @@ const removeArticlesFromCollection = exports.removeArticlesFromCollection = asyn
     const { articleIds, collectionName } = req.body;
     const { userId } = req.params;
 
-    console.log(articleIds, collectionName, userId);
     if (!userId) {
       return res.status(401).json({ error: true, message: 'userId must be specified.' });
     } else if (!articleIds) {
@@ -152,6 +151,9 @@ const removeArticlesFromCollection = exports.removeArticlesFromCollection = asyn
     articleIds.forEach(async articleId => {
       try {
         await _model2.default.update({ name: collectionName, userId }, { $pull: { articles: articleId } });
+        const collectionNames = [];
+        collectionNames.push(collectionName);
+        await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
       } catch (error) {
         console.log(error);
         return res.status(401).json({ error: true, message: `Failed to remove your article (${articleId}) to the collection.` });
