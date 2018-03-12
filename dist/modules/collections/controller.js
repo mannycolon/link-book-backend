@@ -63,16 +63,23 @@ const updateArticleCollectionNames = exports.updateArticleCollectionNames = asyn
       return res.status(401).json({ error: true, message: `Please provide the articleId that you want to add to the articles collection.` });
     }
 
-    collectionNames.forEach(async collectionName => {
-      try {
-        await _model2.default.update({ userId, articles: articleId }, { $pull: { articles: articleId } }, { multi: true });
-        await _model4.default.findOrCreateCollection(collectionName, userId, articleId);
-      } catch (error) {
-        return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
-      }
-    });
+    console.log(articleId, collectionNames, userId);
 
-    await _model2.default.updateArticleCollectionNames(collectionNames, articleId);
+    // collectionNames.forEach(async collectionName => {
+    //   try {
+    //     await collection.update(
+    //       { userId, articles: articleId },
+    //       { $pull: { articles: articleId } },
+    //       { multi: true }
+    //     );
+    //     await User.findOrCreateCollection(collectionName, userId, articleId);
+    //   } catch (error) {
+    //     console.error(error)
+    //     return res.status(401).json({ error: true, message: `Failed to add your article to the specified collection/s.` });
+    //   }
+    // });
+
+    // await collection.updateArticleCollectionNames(collectionNames, articleId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's collection was successfully updated.` });
   } catch (error) {
