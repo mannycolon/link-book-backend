@@ -29,7 +29,7 @@ CollectionSchema.statics.updateArticleCollectionNames = async function (collecti
 CollectionSchema.statics.removeCollectionNameFromAllArticles = async function (collectionName, userId) {
   const Article = mongoose.model('Article');
   try {
-    return await Article.update({ userId }, { $pull: { collectionNames: collectionName } }, { multi: true });
+    return await Article.update({ userId, collectionNames: collectionName }, { $pull: { collectionNames: collectionName } }, { multi: true });
   } catch (error) {
     return error;
   }

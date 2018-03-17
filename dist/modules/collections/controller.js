@@ -100,11 +100,8 @@ const updateCollectionNameText = exports.updateCollectionNameText = async (req, 
     }
 
     await _model2.default.update({ userId, name: oldCollectionName }, { $set: { name: newCollectionName } });
-
-    // await Article.update({ userId }, { $pull: { collectionNames: collectionName } }, { multi: true });
-
     await _model4.default.update({ userId, collectionNames: oldCollectionName }, { $addToSet: { collectionNames: newCollectionName } }, { multi: true });
-    // await collection.removeCollectionNameFromAllArticles(oldCollectionName, userId);
+    await _model2.default.removeCollectionNameFromAllArticles(oldCollectionName, userId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.` });
   } catch (error) {
