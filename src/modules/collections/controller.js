@@ -91,8 +91,11 @@ export const updateCollectionNameText = async (req, res) => {
     }
 
     await collection.update({ userId, name: oldCollectionName }, { $set: { name: newCollectionName } });
+
+    // await Article.update({ userId }, { $pull: { collectionNames: collectionName } }, { multi: true });
+
     await Article.update({ userId, collectionNames: oldCollectionName }, { $addToSet: { collectionNames: newCollectionName } }, { multi: true });
-    await collection.removeCollectionNameFromAllArticles(oldCollectionName, userId);
+    // await collection.removeCollectionNameFromAllArticles(oldCollectionName, userId);
 
     return res.status(201).json({ error: false, sucess: true, message: `Your collection name's was succesfully updated.`});
   } catch (error) {
