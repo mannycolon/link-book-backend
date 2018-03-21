@@ -16,5 +16,6 @@ const routes = new _express.Router();
 
 routes.get('/articles/:userId', ArticleController.getPublicArticles);
 routes.post('/articles/:userId/update/privacy', ArticleController.changeArticlesPrivacy);
+routes.delete('/articles/:userId/delete', ArticleController.deleteArticle);
 
 exports.default = routes;

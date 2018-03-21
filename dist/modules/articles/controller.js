@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeArticlesPrivacy = exports.getPublicArticles = undefined;
+exports.deleteArticle = exports.changeArticlesPrivacy = exports.getPublicArticles = undefined;
 
 var _model = require('./model');
 
@@ -44,5 +44,18 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
     return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.` });
   } catch (error) {
     return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
+  }
+};
+
+const deleteArticle = exports.deleteArticle = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { articleId } = req.body;
+    // TODO: implement article deletion
+    console.log(userId, articleId);
+
+    return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.` });
+  } catch (errorType) {
+    return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
   }
 };

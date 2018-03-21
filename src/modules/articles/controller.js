@@ -35,3 +35,16 @@ export const changeArticlesPrivacy = async (req, res) => {
     return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
   }
 }
+
+export const deleteArticle = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { articleId } = req.body;
+    // TODO: implement article deletion
+    console.log(userId, articleId)
+
+    return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
+  } catch (errorType) {
+    return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
+  }
+}
