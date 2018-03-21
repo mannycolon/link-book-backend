@@ -38,8 +38,7 @@ export const changeArticlesPrivacy = async (req, res) => {
 
 export const deleteArticle = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const { articleId } = req.body;
+    const { userId, articleId } = req.params;
     // TODO: implement article deletion
     console.log(userId, articleId)
 
