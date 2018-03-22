@@ -39,9 +39,7 @@ export const changeArticlesPrivacy = async (req, res) => {
 export const deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
-    // TODO: implement article deletion
-    console.log(userId, articleId)
-    await Article.deleteOne( { _id: articleId } );
+    await Article.remove({ _id: articleId });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {

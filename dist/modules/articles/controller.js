@@ -50,9 +50,7 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
 const deleteArticle = exports.deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
-    // TODO: implement article deletion
-    console.log(userId, articleId);
-    await _model2.default.deleteOne({ _id: articleId });
+    await _model2.default.remove({ _id: articleId });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.` });
   } catch (errorType) {
