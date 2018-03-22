@@ -40,6 +40,10 @@ export const deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
     await Article.remove({ _id: articleId });
+    await collection.update(
+      { userId },
+      { $pull: { articles: articleId } },
+    );
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
