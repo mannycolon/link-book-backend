@@ -41,7 +41,8 @@ export const deleteArticle = async (req, res) => {
     const { userId, articleId } = req.params;
     // TODO: implement article deletion
     console.log(userId, articleId)
-    await Article.update({ userId, _id: articleId }, { $pull: { _id: articleId } });
+    await Article.deleteOne( { _id: ObjectId(articleId) } );
+
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
     console.error(errorType)
