@@ -41,24 +41,25 @@ export const deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
     const Collection = mongoose.model('Collection');
+    const foundArticle = await Article.findOne({ _id: articleId });
+    const articleCollectionNames = foundArticle.collectionNames;
 
-    const foundArticle = await Article.findOne({ _id: articleId })
-    // await Article.remove({ _id: articleId });
-    console.log(foundArticle)
-    // const articleCollectionNames = foundArticle.collectionNames;
-    // articleCollectionNames.forEach(async(collectionName) => {
-    //   try {
-    //     await Collection.update(
-    //       { name: collectionName, userId },
-    //       { $pull: { articles: articleId } },
-    //       { multi: true }
-    //     );
-    //   } catch (error) {
-    //     console.error(error);
-    //     return res.status(401).json({ error: true, message: `Failed to remove your article from the specified collection/s.` });
-    //   }
-    // });
+    // Deleting article from mongodb collection.
+    await Article.remove({ _id: articleId });
 
+    // Removing article reference Id from collections.
+    articleCollectionNames.forEach(async(collectionName) => {
+      try {
+        await Collection.update(
+          { name: collectionName, userId },
+          { $pull: { articles: articleId } },
+          { multi: true }
+        );
+      } catch (error) {
+        console.error(error);
+        return res.status(401).json({ error: true, message: `Failed to remove your article from the specified collection/s.` });
+      }
+    });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
