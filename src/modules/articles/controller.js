@@ -1,5 +1,4 @@
 import Article from './model';
-import { ObjectId } from 'mongoose';
 
 export const getPublicArticles = async (req, res) => {
   const { userId } = req.params;
@@ -42,7 +41,7 @@ export const deleteArticle = async (req, res) => {
     const { userId, articleId } = req.params;
     // TODO: implement article deletion
     console.log(userId, articleId)
-    await Article.deleteOne( { _id: ObjectId(articleId) } );
+    await Article.deleteOne( { _id: articleId } );
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
