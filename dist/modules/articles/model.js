@@ -38,4 +38,9 @@ const ArticleSchema = new _mongoose.Schema({
   }
 }, { timestamps: true });
 
+ArticleSchema.pre('remove', function (next) {
+  // Remove all the assignment docs that reference the removed person.
+  this.model('Collections').remove({ Article: this._id }, next);
+});
+
 exports.default = _mongoose2.default.model('Article', ArticleSchema);

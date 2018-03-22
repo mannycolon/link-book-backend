@@ -28,4 +28,9 @@ const ArticleSchema = new Schema({
   }
 }, { timestamps: true });
 
+ArticleSchema.pre('remove', function(next) {
+  // Remove all the assignment docs that reference the removed person.
+  this.model('Collections').remove({ Article: this._id }, next);
+});
+
 export default mongoose.model('Article', ArticleSchema);
