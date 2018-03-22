@@ -52,7 +52,7 @@ const deleteArticle = exports.deleteArticle = async (req, res) => {
     const { userId, articleId } = req.params;
     // TODO: implement article deletion
     console.log(userId, articleId);
-
+    await _model2.default.update({ userId, _id: articleId }, { $pull: { _id: articleId } });
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.` });
   } catch (errorType) {
     return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
