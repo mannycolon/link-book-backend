@@ -9,6 +9,10 @@ var _model = require('./model');
 
 var _model2 = _interopRequireDefault(_model);
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const getPublicArticles = exports.getPublicArticles = async (req, res) => {
@@ -50,8 +54,10 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
 const deleteArticle = exports.deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
+    const Collection = _mongoose2.default.model('Collection');
+
     await _model2.default.remove({ _id: articleId });
-    await collection.update({ userId }, { $pull: { articles: articleId } });
+    await Collection.update({ userId }, { $pull: { articles: articleId } });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.` });
   } catch (errorType) {

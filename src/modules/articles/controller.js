@@ -1,4 +1,5 @@
 import Article from './model';
+import mongoose from 'mongoose';
 
 export const getPublicArticles = async (req, res) => {
   const { userId } = req.params;
@@ -39,8 +40,10 @@ export const changeArticlesPrivacy = async (req, res) => {
 export const deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
+    const Collection = mongoose.model('Collection');
+
     await Article.remove({ _id: articleId });
-    await collection.update(
+    await Collection.update(
       { userId },
       { $pull: { articles: articleId } },
     );
