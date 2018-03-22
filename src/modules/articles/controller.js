@@ -44,6 +44,7 @@ export const deleteArticle = async (req, res) => {
     await Article.update({ userId, _id: articleId }, { $pull: { _id: articleId } });
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
+    console.error(errorType)
     return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
   }
 }
