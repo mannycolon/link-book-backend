@@ -25,6 +25,9 @@ const ArticleSchema = new _mongoose.Schema({
   imageURL: {
     type: String
   },
+  isRead: {
+    type: Boolean
+  },
   isPublic: {
     type: Boolean,
     required: true

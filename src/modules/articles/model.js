@@ -15,6 +15,9 @@ const ArticleSchema = new Schema({
   imageURL: {
     type: String,
   },
+  isRead: {
+    type: Boolean,
+  },
   isPublic: {
     type: Boolean,
     required: true,
