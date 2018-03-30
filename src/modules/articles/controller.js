@@ -82,6 +82,7 @@ export async function updateArticleReadSetting(req, res) {
 
     await Article.update({ userId, _id: articleId}, { $set: { isRead } });
 
+    return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully updated.`});
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles read setting.' });
