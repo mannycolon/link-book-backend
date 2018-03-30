@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.deleteArticle = exports.changeArticlesPrivacy = exports.getPublicArticles = undefined;
+exports.updateArticleReadSetting = updateArticleReadSetting;
 
 var _model = require('./model');
 
@@ -39,8 +40,8 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
       return res.status(401).json({ error: true, message: 'userId must be specified' });
     } else if (!articleId) {
       return res.status(401).json({ error: true, message: 'articleId must be specified' });
-    } else if (!articleId) {
-      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    } else if (!isPublic) {
+      return res.status(401).json({ error: true, message: 'isPublic must be specified' });
     }
 
     await _model2.default.update({ userId, _id: articleId }, { $set: { isPublic } });
@@ -54,6 +55,13 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
 const deleteArticle = exports.deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    }
+
     const Collection = _mongoose2.default.model('Collection');
     const foundArticle = await _model2.default.findOne({ _id: articleId });
     const articleCollectionNames = foundArticle.collectionNames;
@@ -77,3 +85,15 @@ const deleteArticle = exports.deleteArticle = async (req, res) => {
     return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
   }
 };
+
+async function updateArticleReadSetting(req, res) {
+  try {
+    const { userId } = req.params;
+    const { articleId, isRead } = req.body;
+
+    await _model2.default.update({ userId, _id: articleId }, { $set: { isRead } });
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles read setting.' });
+  }
+}

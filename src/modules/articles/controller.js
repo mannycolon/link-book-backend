@@ -25,8 +25,8 @@ export const changeArticlesPrivacy = async (req, res) => {
       return res.status(401).json({ error: true, message: 'userId must be specified' });
     } else if (!articleId) {
       return res.status(401).json({ error: true, message: 'articleId must be specified' });
-    } else if (!articleId) {
-      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    } else if (!isPublic) {
+      return res.status(401).json({ error: true, message: 'isPublic must be specified' });
     }
 
     await Article.update({ userId, _id: articleId }, { $set: { isPublic } });
@@ -40,6 +40,13 @@ export const changeArticlesPrivacy = async (req, res) => {
 export const deleteArticle = async (req, res) => {
   try {
     const { userId, articleId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: true, message: 'userId must be specified' });
+    } else if (!articleId) {
+      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+    }
+
     const Collection = mongoose.model('Collection');
     const foundArticle = await Article.findOne({ _id: articleId });
     const articleCollectionNames = foundArticle.collectionNames;
@@ -65,5 +72,18 @@ export const deleteArticle = async (req, res) => {
   } catch (errorType) {
     console.error(errorType)
     return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
+  }
+}
+
+export async function updateArticleReadSetting(req, res) {
+  try {
+    const { userId } = req.params;
+    const { articleId, isRead } = req.body;
+
+    await Article.update({ userId, _id: articleId}, { $set: { isRead } });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles read setting.' });
   }
 }
