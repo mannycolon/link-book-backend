@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as JWTStragety, ExtractJwt } from 'passport-jwt';
 
-import user from '../model';
+import User from '../model';
 import config from '../../../config/config';
 
 /**
@@ -16,8 +16,7 @@ import config from '../../../config/config';
 
 const jwtStragety = new JWTStragety(jwtOpts, async (payload, done) => {
   try {
-    console.log(payload, '----------------------')
-    const user = await user.findById(payload.id);
+    const user = await User.findById(payload.id);
     if(user) {
       done(null, user);
     } else {
