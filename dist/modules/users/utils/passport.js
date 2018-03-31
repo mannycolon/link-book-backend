@@ -35,7 +35,6 @@ const jwtStragety = new _passportJwt.Strategy(jwtOpts, async (payload, done) => 
       done(null, false);
     }
   } catch (error) {
-    console.log(error);
     return done(err, false);
   }
 });
