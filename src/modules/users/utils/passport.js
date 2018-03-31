@@ -10,7 +10,7 @@ import config from '../../../config/config';
 
  const jwtOpts = {
   // Tell passport to take the jwt token from the authorization headers
-  jwtFromRequest: ExtractJwt.fromAuthHeader('Authorization'),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
   secretOrKey: config.JWT_SECRET,
 };
 

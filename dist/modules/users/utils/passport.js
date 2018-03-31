@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const jwtOpts = {
   // Tell passport to take the jwt token from the authorization headers
-  jwtFromRequest: _passportJwt.ExtractJwt.fromAuthHeader('Authorization'),
+  jwtFromRequest: _passportJwt.ExtractJwt.fromAuthHeaderWithScheme('jwt'),
   secretOrKey: _config2.default.JWT_SECRET
 };
 
