@@ -36,6 +36,7 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
   try {
     const { userId } = req.params;
     const { articleId, isPublic } = req.body;
+    console.log(userId, articleId, isPublic);
 
     if (!userId) {
       return res.status(400).json({ error: true, message: 'userId must be specified' });
@@ -44,8 +45,6 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
     } else if (!isPublic) {
       return res.status(400).json({ error: true, message: 'isPublic must be specified' });
     }
-
-    console.log(userId, articleId, isPublic);
 
     await _model2.default.update({ userId, _id: articleId }, { $set: { isPublic } });
 
