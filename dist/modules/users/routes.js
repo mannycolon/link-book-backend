@@ -17,6 +17,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const routes = new _express.Router();
 
 routes.post('/users/auth0', UserController.loginWithAuth0);
+routes.delete('/users/delete', UserController.deleteAccount);
 routes.post('/users/:userId/articles/new', _requireJwtAuth.requireJwtAuth, UserController.addArticle);
 routes.get('/users/:userId/articles', _requireJwtAuth.requireJwtAuth, UserController.getMyArticles);
 routes.get('/users/:userId/collections', _requireJwtAuth.requireJwtAuth, UserController.getMyCollections);

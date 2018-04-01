@@ -101,3 +101,25 @@ export const getMyCollections = async (req, res) => {
     return res.status(201).json({ error: false, sucess: true, collections });
   }
 }
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const Article = mongoose.model('Article');
+    const Collection = mongoose.model('Collection');
+
+    // Delete user from mongodb collection.
+    await User.remove({ _id: userId });
+
+    // Delete articles for userId
+    await Article.remove({ userId });
+
+    // Delete collections for userId
+    await Collection.remove({ userId });
+
+    return res.status(201).json({ error: false, sucess: true, message: `You have successfully deleted your LinkBook account.`});
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ error: true, message: `Something went wrong deleting your LinkBook account.` });
+  }
+}
