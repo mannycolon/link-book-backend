@@ -42,7 +42,7 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
       return res.status(400).json({ error: true, message: 'userId must be specified' });
     } else if (!articleId) {
       return res.status(400).json({ error: true, message: 'articleId must be specified' });
-    } else if (!isPublic) {
+    } else if (typeof isPublic !== 'boolean') {
       return res.status(400).json({ error: true, message: 'isPublic must be specified' });
     }
 
