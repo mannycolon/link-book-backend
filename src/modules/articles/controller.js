@@ -12,6 +12,7 @@ export const getPublicArticles = async (req, res) => {
     });
     return res.status(201).json({ error: false, sucess: true, articles });
   } catch (error) {
+    console.error(error);
     return res.status(400).json({ error: true, message: 'Error retrieving all articles' });
   }
 }
@@ -33,6 +34,7 @@ export const changeArticlesPrivacy = async (req, res) => {
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.`});
   } catch (error) {
+    console.error(error);
     return res.status(400).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
   }
 }
