@@ -34,7 +34,7 @@ export const loginWithAuth0 = async (req, res) => {
       token: `JWT ${createToken(user)}`,
     });
   } catch (error) {
-    return res.status(401).json({ error: true, errorMessage: error.message });
+    return res.status(400).json({ error: true, errorMessage: error.message });
   }
 };
 

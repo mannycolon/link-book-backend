@@ -36,7 +36,6 @@ const changeArticlesPrivacy = exports.changeArticlesPrivacy = async (req, res) =
   try {
     const { userId } = req.params;
     const { articleId, isPublic } = req.body;
-    console.log(userId, articleId, isPublic);
 
     if (!userId) {
       return res.status(400).json({ error: true, message: 'userId must be specified' });
@@ -93,6 +92,14 @@ async function updateArticleReadSetting(req, res) {
   try {
     const { userId } = req.params;
     const { articleId, isRead } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: true, message: 'userId must be specified' });
+    } else if (!articleId) {
+      return res.status(400).json({ error: true, message: 'articleId must be specified' });
+    } else if (typeof isRead !== 'boolean') {
+      return res.status(400).json({ error: true, message: 'isRead must be specified' });
+    }
 
     await _model2.default.update({ userId, _id: articleId }, { $set: { isRead } });
 
