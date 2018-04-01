@@ -12,7 +12,7 @@ export const getPublicArticles = async (req, res) => {
     });
     return res.status(201).json({ error: false, sucess: true, articles });
   } catch (error) {
-    return res.status(401).json({ error: true, message: 'Error retrieving all articles' });
+    return res.status(400).json({ error: true, message: 'Error retrieving all articles' });
   }
 }
 
@@ -22,18 +22,18 @@ export const changeArticlesPrivacy = async (req, res) => {
     const { articleId, isPublic } = req.body;
 
     if (!userId) {
-      return res.status(401).json({ error: true, message: 'userId must be specified' });
+      return res.status(400).json({ error: true, message: 'userId must be specified' });
     } else if (!articleId) {
-      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+      return res.status(400).json({ error: true, message: 'articleId must be specified' });
     } else if (!isPublic) {
-      return res.status(401).json({ error: true, message: 'isPublic must be specified' });
+      return res.status(400).json({ error: true, message: 'isPublic must be specified' });
     }
 
     await Article.update({ userId, _id: articleId }, { $set: { isPublic } });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.`});
   } catch (error) {
-    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
+    return res.status(400).json({ error: true, message: 'Something went wrong while changing your articles privacy setting.' });
   }
 }
 
@@ -42,9 +42,9 @@ export const deleteArticle = async (req, res) => {
     const { userId, articleId } = req.params;
 
     if (!userId) {
-      return res.status(401).json({ error: true, message: 'userId must be specified' });
+      return res.status(400).json({ error: true, message: 'userId must be specified' });
     } else if (!articleId) {
-      return res.status(401).json({ error: true, message: 'articleId must be specified' });
+      return res.status(400).json({ error: true, message: 'articleId must be specified' });
     }
 
     const Collection = mongoose.model('Collection');
@@ -64,14 +64,14 @@ export const deleteArticle = async (req, res) => {
         );
       } catch (error) {
         console.error(error);
-        return res.status(401).json({ error: true, message: `Failed to remove your article from the specified collection/s.` });
+        return res.status(400).json({ error: true, message: `Failed to remove your article from the specified collection/s.` });
       }
     });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully deleted.`});
   } catch (errorType) {
     console.error(errorType)
-    return res.status(401).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
+    return res.status(400).json({ error: true, message: 'Something went wrong while deleting your article.', errorType });
   }
 }
 
@@ -85,6 +85,6 @@ export async function updateArticleReadSetting(req, res) {
     return res.status(201).json({ error: false, sucess: true, message: `Your article was succesfully updated.`});
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ error: true, message: 'Something went wrong while changing your articles read setting.' });
+    return res.status(400).json({ error: true, message: 'Something went wrong while changing your articles read setting.' });
   }
 }
