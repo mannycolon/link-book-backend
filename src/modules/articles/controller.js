@@ -30,6 +30,8 @@ export const changeArticlesPrivacy = async (req, res) => {
       return res.status(400).json({ error: true, message: 'isPublic must be specified' });
     }
 
+    console.log(userId, articleId, isPublic)
+
     await Article.update({ userId, _id: articleId }, { $set: { isPublic } });
 
     return res.status(201).json({ error: false, sucess: true, message: `Your article's privacy setting was succesfully updated.`});
