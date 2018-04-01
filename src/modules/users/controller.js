@@ -63,7 +63,8 @@ export const addArticle = async (req, res) => {
 
     try {
       collectionNames = collectionNames.filter((collectionName) => collectionName.toLowerCase() !== 'none');
-      const args = { title, description, imageURL, articleUrl, isPublic, collectionNames };
+      const isRead = false;
+      const args = { title, description, imageURL, articleUrl, isPublic, collectionNames, isRead };
       const { article, duplicate } = await User.addArticle(userId, args);
       if (duplicate) return res.status(400).json({ error: true, message: 'You previously added this article to your list.' });
 
