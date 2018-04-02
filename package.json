@@ -20,6 +20,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
+    "moment": "^2.22.0",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.1",
     "morgan": "^1.9.0",
