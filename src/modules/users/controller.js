@@ -109,8 +109,9 @@ export const deleteAccount = async (req, res) => {
     const Article = mongoose.model('Article');
     const Collection = mongoose.model('Collection');
 
+    console.log(userId)
     // Delete user from mongodb collection.
-    await User.remove({ _id: userId });
+    await User.deleteOne({ _id: userId });
 
     // Delete articles for userId
     await Article.remove({ userId });
