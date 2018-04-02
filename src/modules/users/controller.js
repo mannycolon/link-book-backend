@@ -105,7 +105,7 @@ export const getMyCollections = async (req, res) => {
 
 export const deleteAccount = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const Article = mongoose.model('Article');
     const Collection = mongoose.model('Collection');
 

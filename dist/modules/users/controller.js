@@ -124,7 +124,7 @@ const getMyCollections = exports.getMyCollections = async (req, res) => {
 
 const deleteAccount = exports.deleteAccount = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const Article = _mongoose2.default.model('Article');
     const Collection = _mongoose2.default.model('Collection');
 
