@@ -128,7 +128,6 @@ const deleteAccount = exports.deleteAccount = async (req, res) => {
     const Article = _mongoose2.default.model('Article');
     const Collection = _mongoose2.default.model('Collection');
 
-    console.log(userId);
     // Delete user from mongodb collection.
     await _model2.default.deleteOne({ _id: userId });
 
