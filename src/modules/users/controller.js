@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import User from './model';
 import { createToken } from './utils/createToken';
 import { facebookAuth } from './utils/facebookAuth';

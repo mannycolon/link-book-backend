@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.deleteAccount = exports.getMyCollections = exports.getMyArticles = exports.addArticle = exports.loginWithAuth0 = undefined;
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 var _model = require('./model');
 
 var _model2 = _interopRequireDefault(_model);
@@ -121,8 +125,8 @@ const getMyCollections = exports.getMyCollections = async (req, res) => {
 const deleteAccount = exports.deleteAccount = async (req, res) => {
   try {
     const { userId } = req.body;
-    const Article = mongoose.model('Article');
-    const Collection = mongoose.model('Collection');
+    const Article = _mongoose2.default.model('Article');
+    const Collection = _mongoose2.default.model('Collection');
 
     // Delete user from mongodb collection.
     await _model2.default.remove({ _id: userId });
